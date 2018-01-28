@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'itunizer',
   packages = ['itunizer'], # this must be the same as the name above
-  version = '0.1',
+  version = '0.2',
   description = 'Machine readable data from iTunes store for market research and data analytics',
   author = 'James Campbell',
   author_email = 'james@jamescampbell.us',
