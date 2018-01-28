@@ -7,7 +7,7 @@ setup(
   author = 'James Campbell',
   author_email = 'james@jamescampbell.us',
   url = 'https://github.com/jamesacampbell/itunizer', # use the URL to the github repo
-  download_url = 'https://github.com/jamesacampbell/itunizer/archive/0.1.tar.gz', # I'll explain this in a second
+  download_url = 'https://github.com/jamesacampbell/itunizer/archive/0.2.tar.gz', # I'll explain this in a second
   keywords = ['itunes', 'data-analysis', 'api'], # arbitrary keywords
   classifiers = [],
 )
