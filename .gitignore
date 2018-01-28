@@ -99,3 +99,7 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# outputfiles
+*.json
+/itunizer/*.json
