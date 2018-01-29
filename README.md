@@ -28,6 +28,7 @@ The easiest way is pip: `pip3 install itunizer`.
 
 Use the `-h` for options:   
 
+!['help options'](https://user-images.githubusercontent.com/616585/35492988-12ab0b20-047e-11e8-992e-77c704661cfc.png)
 
 ## Why?
 
