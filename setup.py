@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='itunizer',
     author='James Campbell',
-    author_email='james@#jamescampbell.us',
+    author_email='james@jamescampbell.us',
     version='0.5.0',
     license='GPLv3',
     description = 'Machine readable data from iTunes store for market research and data analytics',
@@ -19,7 +19,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'itunizer = itunizer.grabber:main',
+            'itunizer = itunizer.__main__:main',
         ],
         },
     url = 'https://github.com/jamesacampbell/itunizer', # use the URL to the github repo
