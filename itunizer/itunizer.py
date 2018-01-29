@@ -20,8 +20,6 @@ pd.set_option('display.width', 1000)
 __version__ = "0.5.4"
 logo = """
 ┌────────────────────────┐
-│                        │
-│                        │
 │            ┌───▶       │
 │        ┌───┘   │       │
 │        │   ┌───▶       │
@@ -58,7 +56,11 @@ def get_content():
 
 def get_mean(jsondata):
     """Get average of list of items using numpy."""
-    return mean([float(price['formattedPrice'][1:]) for price in jsondata['results']])  # key name from itunes
+    if len(jsondata['results']) > 1:
+        return mean([float(price.get('price')) for price in jsondata['results'] if 'price' in price])  # key name from itunes
+        # [a.get('a') for a in alist if 'a' in a]
+    else:
+        return float(jsondata['results'][0]['price'])
 
 
 # main section
@@ -71,20 +73,18 @@ def main():
     request_response = get_content()
     jsondata = request_response.json()
     # [trend['name'] for trend in the_data[0]['trends']]
-    average_price = get_mean(jsondata)
-    print("The average price of the \033[94m{0}\033[0m items matching search term\033[92m {1}\033[0m: ${2:.2f}".format(jsondata['resultCount'], args['search_term'], average_price))
     print()
     if args['print_me']:  # if we are running a test or not
         print('json data:')
         pprint(jsondata)
         print('fields available:')
-        for key in jsondata['results'].keys():
-            print(key)
+        for k,v in jsondata['results'][0].items():
+            print(k)
         exit('thanks for trying')
+    average_price = get_mean(jsondata)
+    print("The average price of the \033[94m{0}\033[0m items matching search term\033[92m {1}\033[0m: ${2:.2f}".format(jsondata['resultCount'], args['search_term'], average_price))
     if args['output_table']:  # if we want to output a table instead of json
-        val2 = request_response.json()
-        # print(val2['results'][0])
-        print(pd.DataFrame(val2['results'], columns=["formattedPrice", "artistName", "trackName"]))
+        print(pd.DataFrame(jsondata['results'], columns=["price", "artistName", "trackName"]))
     else:
         with open('{}.json'.format(args['search_term']), 'w') as f:
             f.write(''.join(str(x) for x in [request_response.json()]))

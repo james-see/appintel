@@ -29,6 +29,6 @@ setup(
             'itunizer = itunizer.itunizer:main',
         ],
         },
-    url = 'https://github.com/jamesacampbell/itunizer'
+    url = 'https://github.com/jamesacampbell/itunizer',
     download_url = 'https://github.com/jamesacampbell/itunizer/archive/{}.tar.gz'.format(version)
 )
