@@ -1,15 +1,22 @@
 from setuptools import setup, find_packages
+import re
+
+version = re.search(
+    '^__version__\s*=\s*"(.*)"',
+    open('itunizer/itunizer.py').read(),
+    re.M
+    ).group(1)
 
 setup(
     name='itunizer',
     author='James Campbell',
     author_email='james@jamescampbell.us',
-    version='0.5.2',
+    version=version,
     license='GPLv3',
     description = 'Machine readable data from iTunes store for market research and data analytics',
-    packages=find_packages(),
+    packages=['itunizer'],
     py_modules=['itunizer'],
-    keywords = ['itunes', 'data-analysis', 'api'], # arbitrary keywords
+    keywords = ['itunes', 'data-analysis', 'api', 'market-research', 'pricing'],
     classifiers = ["Programming Language :: Python :: 3 :: Only"],
     install_requires=[
         'argparse',
@@ -19,9 +26,9 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'itunizer = itunizer.__main__:main',
+            'itunizer = itunizer.itunizer:main',
         ],
         },
-    url = 'https://github.com/jamesacampbell/itunizer', # use the URL to the github repo
-    download_url = 'https://github.com/jamesacampbell/itunizer/archive/0.2.tar.gz', # I'll explain this in a second
+    url = 'https://github.com/jamesacampbell/itunizer'
+    download_url = 'https://github.com/jamesacampbell/itunizer/archive/{}.tar.gz'.format(version)
 )
