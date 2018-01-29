@@ -16,7 +16,18 @@
 │      │ itunizer  │     │
 └──────┴───────────┴─────┘</code></pre>
 
+## What
+
 Gather market data into a machine readable form from iTunes store data. 
+
+## Install
+
+The easiest way is pip: `pip3 install itunizer`. 
+
+## Usage
+
+Use the `-h` for options:   
+
 
 ## Why?
 
