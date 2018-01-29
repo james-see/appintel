@@ -4,7 +4,7 @@ setup(
     name='itunizer',
     author='James Campbell',
     author_email='james@jamescampbell.us',
-    version='0.5.1',
+    version='0.5.2',
     license='GPLv3',
     description = 'Machine readable data from iTunes store for market research and data analytics',
     packages=find_packages(),
