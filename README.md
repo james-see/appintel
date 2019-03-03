@@ -26,7 +26,7 @@ The easiest way is pip: `pip3 install itunizer`.
 
 Use the `-h` for options:   
 
-!['help options'](https://user-images.githubusercontent.com/616585/35492988-12ab0b20-047e-11e8-992e-77c704661cfc.png)
+!['help options'](https://user-images.githubusercontent.com/616585/53701201-9ee3e600-3dc8-11e9-8e13-2f49be374c17.png)
 
 ## Why?
 
