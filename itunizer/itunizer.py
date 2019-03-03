@@ -4,6 +4,7 @@
 # Author: James Campbell
 # License: Please see the license file in this repo
 # First Create Date: 28-Jan-2018
+# Last Update: 03-03-2019
 # Requirements: minimal. check requirements.txt and run pip/pip3 install -f requirements.txt
 
 # imports section
@@ -17,7 +18,7 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
 # globals
-__version__ = "0.6.0"
+__version__ = "0.8.0"
 logo = """
 ┌────────────────────────┐
 │            ┌───▶       │
@@ -33,15 +34,23 @@ logo = """
 │      │ itunizer  │     │
 └──────┴───────────┴─────┘
 """
-itunes_url_endpoint = 'https://itunes.apple.com/search?term={}&country=us&entity={}'
+itunes_url_endpoint = 'https://itunes.apple.com/search?term={}&country={}&entity={}'
 
 # arguments
-parser = argparse.ArgumentParser(description='collects and processes itunes data including ibook, application, and other store items with metadata, run "python3 test_itunize.py', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('-s', '--search', dest='search_term', help='search term to search itunes store for', default='nginx', required=False)
-parser.add_argument('-c', '--category', dest='category_location', help='category in store to search for', default='software', required=False)
-parser.add_argument('-p', '--print', dest='print_me', help='print to screen results, helpful for testing', action='store_true', default=False)
-parser.add_argument('-n', '--no-logo', dest='logo_off', help='disables printing logo', action='store_true', default=False)
-parser.add_argument('-t', '--table', dest='output_table', help='prints out table as format for data', action='store_true', default=False)
+parser = argparse.ArgumentParser(description='collects and processes itunes data including ibook, application, and other store items with metadata, example: itunizer -c ibook -s "corn" -t',
+                                 formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser.add_argument('-s', '--search', dest='search_term',
+                    help='search term to search itunes store for', default='nginx', required=False)
+parser.add_argument('-c', '--category', dest='category_location',
+                    help='category in store to search for', default='software', required=False)
+parser.add_argument('-p', '--print', dest='print_me',
+                    help='print to screen results, helpful for testing', action='store_true', default=False)
+parser.add_argument('-n', '--no-logo', dest='logo_off',
+                    help='disables printing logo', action='store_true', default=False)
+parser.add_argument('-t', '--table', dest='output_table',
+                    help='prints out table as format for data', action='store_true', default=False)
+parser.add_argument('--country', dest='store_country', default='us',
+                    help='the store country you want to use for search results')
 args = vars(parser.parse_args())
 
 
@@ -50,14 +59,36 @@ args = vars(parser.parse_args())
 
 def get_content():
     """Get data from requests object from itunes endpoint."""
-    r = requests.get(itunes_url_endpoint.format(args['search_term'], args['category_location']))
+    r = requests.get(itunes_url_endpoint.format(
+        args['search_term'], args['store_country'], args['category_location']))
     return r
 
 
 def get_mean(jsondata):
     """Get average of list of items using numpy."""
     if len(jsondata['results']) > 1:
-        return mean([float(price.get('price')) for price in jsondata['results'] if 'price' in price])  # key name from itunes
+        # key name from itunes
+        return mean([float(price.get('price')) for price in jsondata['results'] if 'price' in price])
+        # [a.get('a') for a in alist if 'a' in a]
+    else:
+        return float(jsondata['results'][0]['price'])
+
+
+def get_max(jsondata):
+    """Get max of list of items using max built in."""
+    if len(jsondata['results']) > 1:
+        # key name from itunes
+        return max([float(price.get('price')) for price in jsondata['results'] if 'price' in price])
+        # [a.get('a') for a in alist if 'a' in a]
+    else:
+        return float(jsondata['results'][0]['price'])
+
+
+def get_min(jsondata):
+    """Get max of list of items using max built in."""
+    if len(jsondata['results']) > 1:
+        # key name from itunes
+        return min([float(price.get('price')) for price in jsondata['results'] if 'price' in price])
         # [a.get('a') for a in alist if 'a' in a]
     else:
         return float(jsondata['results'][0]['price'])
@@ -78,17 +109,25 @@ def main():
         print('json data:')
         pprint(jsondata)
         print('fields available:')
-        for k,v in jsondata['results'][0].items():
+        for k, v in jsondata['results'][0].items():
             print(k)
         exit('thanks for trying')
     average_price = get_mean(jsondata)
-    print("The average price of the \033[94m{0}\033[0m items matching search term\033[92m {1}\033[0m: ${2:.2f}".format(jsondata['resultCount'], args['search_term'], average_price))
+    max_price = get_max(jsondata)
+    min_price = get_min(jsondata)
+    print("Results of the query")
+    print("*****"*5)
+    print("The average price of the \033[94m{0}\033[0m items matching search term\033[92m {1}\033[0m: ${2:.2f} and the min is \033[94m{3:.2f}\033[0m and the max is \033[94m{4:.2f}\033[0m".format(
+        jsondata['resultCount'], args['search_term'], average_price, min_price, max_price))
+    print("")
     if args['output_table']:  # if we want to output a table instead of json
-        print(pd.DataFrame(jsondata['results'], columns=["price", "artistName", "trackName"]))
+        print(pd.DataFrame(jsondata['results'], columns=[
+              "price", "artistName", "trackName"]))
     else:
         with open('{}.json'.format(args['search_term']), 'w') as f:
             f.write(''.join(str(x) for x in [request_response.json()]))
         exit('file saved as {}.json'.format(args['search_term']))
+
 
 if __name__ == "__main__":
     main()
