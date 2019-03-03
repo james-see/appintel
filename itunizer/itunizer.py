@@ -18,7 +18,7 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
 # globals
-__version__ = "0.8.0"
+__version__ = "1.0.0"
 logo = """
 ┌────────────────────────┐
 │            ┌───▶       │
