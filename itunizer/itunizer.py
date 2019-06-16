@@ -12,7 +12,7 @@
 import requests
 import argparse
 from pprint import pprint
-from statistics import mean
+from statistics import mean, median
 import pandas as pd
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
@@ -95,6 +95,15 @@ def get_min(jsondata):
         return float(jsondata['results'][0]['price'])
 
 
+def get_median(jsondata):
+    """Get median of list of items using statistics.median built in."""
+    if len(jsondata['results']) > 1:
+        # key name from itunes
+        return median([float(price.get('price')) for price in jsondata['results'] if 'price' in price])
+        # [a.get('a') for a in alist if 'a' in a]
+    else:
+        return median(jsondata['results'][0]['price'])
+
 # main section
 
 
@@ -119,10 +128,11 @@ def main():
     average_price = get_mean(jsondata)
     max_price = get_max(jsondata)
     min_price = get_min(jsondata)
+    median_price = get_median(jsondata)
     print("Results of the query")
     print("*****"*5)
-    print("The average price of the \033[94m{0}\033[0m items matching search term\033[92m {1}\033[0m: ${2:.2f} and the min is \033[94m{3:.2f}\033[0m and the max is \033[94m{4:.2f}\033[0m".format(
-        jsondata['resultCount'], args['search_term'], average_price, min_price, max_price))
+    print("The average price of the \033[94m{0}\033[0m items matching search term\033[92m {1}\033[0m: ${2:.2f}, the median is \033[94m{3:.2f}\033[0m, the min is \033[94m{4:.2f}\033[0m, and the max is \033[94m{5:.2f}\033[0m".format(
+        jsondata['resultCount'], args['search_term'], average_price, median_price, min_price, max_price))
     print("")
     if args['output_table']:  # if we want to output a table instead of json
         print(pd.DataFrame(jsondata['results'], columns=[
