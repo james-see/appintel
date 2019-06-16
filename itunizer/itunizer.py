@@ -14,11 +14,12 @@ import argparse
 from pprint import pprint
 from statistics import mean, median
 import pandas as pd
+import json
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
 # globals
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 logo = """
 ┌────────────────────────┐
 │            ┌───▶       │
@@ -139,7 +140,7 @@ def main():
               "price", "artistName", "trackName"]))
     else:
         with open('{}.json'.format(args['search_term']), 'w') as f:
-            f.write(''.join(str(x) for x in [request_response.json()]))
+            f.write(json.dumps(request_response.json()))
         exit('file saved as {}.json'.format(args['search_term']))
 
 
