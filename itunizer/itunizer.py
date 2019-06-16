@@ -51,6 +51,7 @@ parser.add_argument('-t', '--table', dest='output_table',
                     help='prints out table as format for data', action='store_true', default=False)
 parser.add_argument('--country', dest='store_country', default='us',
                     help='the store country you want to use for search results')
+parser.add_argument('--version', '-v', dest='app_version', help='prints the version', action='store_true', default=False)
 args = vars(parser.parse_args())
 
 
@@ -101,6 +102,9 @@ def main():
     """Main function that runs everything."""
     if not args['logo_off']:  # print or not print logo
         print(logo)
+    if args['app_version']:
+        print(f'Current version: {__version__}')
+        exit(0)
     request_response = get_content()
     jsondata = request_response.json()
     # [trend['name'] for trend in the_data[0]['trends']]
