@@ -20,7 +20,7 @@ pd.set_option("display.max_columns", 500)
 pd.set_option("display.width", 1000)
 
 # globals
-__version__ = "1.0.2"
+__version__ = "1.0.4"
 logo = """
 ┌────────────────────────┐
 │            ┌───▶       │
@@ -55,7 +55,7 @@ parser.add_argument(
     "-c",
     "--category",
     dest="category_location",
-    help="category in store to search for, available are movie, podcast, music, musicVideo, audiobook, shortFilm, tvShow, software, ebook, all",
+    help="category in store to search for; what is available is movie, podcast, music, musicVideo, audiobook, shortFilm, tvShow, software, ebook, all",
     default="software",
     required=False,
 )
