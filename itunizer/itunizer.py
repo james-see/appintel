@@ -9,10 +9,10 @@
 
 # imports section
 
-import requests
-import argparse
 from pprint import pprint
 from statistics import mean, median
+import requests
+import argparse
 import pandas as pd
 import json
 pd.set_option('display.max_columns', 500)
@@ -113,7 +113,7 @@ def main():
     if not args['logo_off']:  # print or not print logo
         print(logo)
     if args['app_version']:
-        print(f'Current version: {__version__}')
+        print(f"Current version: {__version__}")
         exit(0)
     request_response = get_content()
     jsondata = request_response.json()
@@ -123,7 +123,7 @@ def main():
         print('json data:')
         pprint(jsondata)
         print('fields available:')
-        for k, v in jsondata['results'][0].items():
+        for k, _ in jsondata['results'][0].items():
             print(k)
         exit('thanks for trying')
     average_price = get_mean(jsondata)
