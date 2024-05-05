@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "itunizer"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+argparse = "^1.4.0"
+certifi = "^2024.2.2"
+chardet = "^5.2.0"
+idna = "^3.7"
+numpy = "^1.26.4"
+pandas = "^2.2.2"
+python-dateutil = "^2.9.0.post0"
+pytz = "^2024.1"
+requests = "^2.31.0"
+six = "^1.16.0"
+urllib3 = "^2.2.1"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
