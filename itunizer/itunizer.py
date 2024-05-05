@@ -1,26 +1,24 @@
-"""A script to grab itunes items for sale for market research and data research purposes."""
+"""A script to grab itunes items for sale for market and data research."""
 # coding: utf-8
 # !/usr/bin/python3
 # Author: James Campbell
 # License: Please see the license file in this repo
 # First Create Date: 28-Jan-2018
-# Last Update: 03-03-2019
-# Requirements: minimal. check requirements.txt and run pip/pip3 install -f requirements.txt
+# Last Update: 05-May-2024
+# Requirements: minimal. check requirements.txt
 
 # imports section
 
+import json
+import argparse
 from pprint import pprint
 from statistics import mean, median
-import requests
-import argparse
-import pandas as pd
-import json
 
-pd.set_option("display.max_columns", 500)
-pd.set_option("display.width", 1000)
+import pandas as pd
+import requests
 
 # globals
-__version__ = "1.0.4"
+__version__ = "1.0.5"
 logo = """
 ┌────────────────────────┐
 │            ┌───▶       │
@@ -36,11 +34,12 @@ logo = """
 │      │ itunizer  │     │
 └──────┴───────────┴─────┘
 """
-itunes_url_endpoint = "https://itunes.apple.com/search?term={}&country={}&entity={}"
+ITUNES_URL_ENDPOINT = "https://itunes.apple.com/search?term={}&country={}&entity={}"
 
 # arguments
 parser = argparse.ArgumentParser(
-    description='collects and processes itunes data including ibook, application, and other store items with metadata, example: itunizer -c ibook -s "corn" -t',
+    description='collects and processes itunes data including ibook, application, '
+                'and other store items with metadata, example: itunizer -c ibook -s "corn" -t',
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 )
 parser.add_argument(
@@ -106,9 +105,11 @@ args = vars(parser.parse_args())
 def get_content():
     """Get data from requests object from itunes endpoint."""
     r = requests.get(
-        itunes_url_endpoint.format(
-            args["search_term"], args["store_country"], args["category_location"]
-        )
+        ITUNES_URL_ENDPOINT.format(
+            args["search_term"], args["store_country"],
+            args["category_location"]
+        ),
+        timeout=10  # Timeout after 10 seconds
     )
     return r
 
@@ -124,9 +125,7 @@ def get_mean(jsondata):
                 if "price" in price
             ]
         )
-        # [a.get('a') for a in alist if 'a' in a]
-    else:
-        return float(jsondata["results"][0]["price"])
+    return float(jsondata["results"][0]["price"])
 
 
 def get_max(jsondata):
@@ -140,9 +139,7 @@ def get_max(jsondata):
                 if "price" in price
             ]
         )
-        # [a.get('a') for a in alist if 'a' in a]
-    else:
-        return float(jsondata["results"][0]["price"])
+    return float(jsondata["results"][0]["price"])
 
 
 def get_min(jsondata):
@@ -156,9 +153,7 @@ def get_min(jsondata):
                 if "price" in price
             ]
         )
-        # [a.get('a') for a in alist if 'a' in a]
-    else:
-        return float(jsondata["results"][0]["price"])
+    return float(jsondata["results"][0]["price"])
 
 
 def get_median(jsondata):
@@ -172,9 +167,7 @@ def get_median(jsondata):
                 if "price" in price
             ]
         )
-        # [a.get('a') for a in alist if 'a' in a]
-    else:
-        return median(jsondata["results"][0]["price"])
+    return float(jsondata["results"][0]["price"])
 
 
 # main section
@@ -205,14 +198,7 @@ def main():
     print("Results of the query")
     print("*****" * 5)
     print(
-        "The average price of the \033[94m{0}\033[0m items matching search term\033[92m {1}\033[0m: ${2:.2f}, the median is \033[94m{3:.2f}\033[0m, the min is \033[94m{4:.2f}\033[0m, and the max is \033[94m{5:.2f}\033[0m".format(
-            jsondata["resultCount"],
-            args["search_term"],
-            average_price,
-            median_price,
-            min_price,
-            max_price,
-        )
+        f"The average price of the \033[94m{jsondata['resultCount']}\033[0m items matching search term\033[92m {args['search_term']}\033[0m: ${average_price:.2f}, the median is \033[94m{median_price:.2f}\033[0m, the min is \033[94m{min_price:.2f}\033[0m, and the max is \033[94m{max_price:.2f}\033[0m"
     )
     print("")
     if args["output_table"]:  # if we want to output a table instead of json
@@ -222,9 +208,9 @@ def main():
             )
         )
     else:
-        with open("{}.json".format(args["search_term"]), "w") as f:
+        with open(f"{args['search_term']}.json", "w", encoding='utf-8') as f:
             f.write(json.dumps(request_response.json()))
-        exit("file saved as {}.json".format(args["search_term"]))
+        exit(f"file saved as {args['search_term']}.json")
 
 
 if __name__ == "__main__":
