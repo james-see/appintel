@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "itunizer"
-version = "1.0.6"
+name = "appintel"
+version = "1.0.0"
 description = "A command line tool to search and compare prices of apps and music on the Apple Store"
 authors = ["James Campbell <james@jamescampbell.us>"]
 readme = "README.md"
@@ -21,6 +21,9 @@ urllib3 = "^2.2.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.4.2"
+
+[tool.poetry.scripts]
+appintel = "appintel.appintel:main"
 
 [build-system]
 requires = ["poetry-core"]

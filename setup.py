@@ -21,18 +21,18 @@ class PostInstallCommand(Command):
         print(f"Created symlink: {target_path} -> {source_path}")
 
 version = re.search(
-    '^__version__\s*=\s*"(.*)"', open("itunizer/itunizer.py").read(), re.M
+    '^__version__\s*=\s*"(.*)"', open("appintel/appintel.py").read(), re.M
 ).group(1)
 
 setup(
-    name="itunizer",
+    name="appintel",
     author="James Campbell",
     author_email="james@jamescampbell.us",
     version=version,
     license="GPLv3",
     description="Machine readable data from iTunes store for market research and data analytics",
-    packages=["itunizer"],
-    py_modules=["itunizer"],
+    packages=["appintel"],
+    py_modules=["appintel"],
     keywords=["itunes", "data-analysis", "api", "market-research", "pricing"],
     classifiers=["Programming Language :: Python :: 3 :: Only"],
     install_requires=["argparse", "pandas", "pprint", "requests"],
