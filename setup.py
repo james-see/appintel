@@ -1,9 +1,13 @@
+"""Setup script for the appintel package."""
+
 import re
-from setuptools import setup, Command
 import os
+from setuptools import setup, Command
+
 
 class PostInstallCommand(Command):
     """Post-installation for installation mode."""
+
     user_options = []
 
     def initialize_options(self):
@@ -13,15 +17,18 @@ class PostInstallCommand(Command):
         pass
 
     def run(self):
-        target_path = "/usr/local/bin/itunizer"
-        source_path = os.path.join(self.install_scripts, 'itunizer')
+        target_path = "/usr/local/bin/appintel"
+        source_path = os.path.join(self.install_scripts, "appintel")
         if os.path.islink(target_path):
             os.unlink(target_path)
         os.symlink(source_path, target_path)
         print(f"Created symlink: {target_path} -> {source_path}")
 
+
 version = re.search(
-    '^__version__\s*=\s*"(.*)"', open("appintel/appintel.py").read(), re.M
+    r'^__version__\s*=\s*"(.*)"',
+    open("appintel/appintel.py", encoding="utf-8").read(),
+    re.M,
 ).group(1)
 
 setup(
@@ -37,11 +44,11 @@ setup(
     classifiers=["Programming Language :: Python :: 3 :: Only"],
     install_requires=["argparse", "pandas", "pprint", "requests"],
     entry_points={"console_scripts": ["itunizer = itunizer.itunizer:main"]},
-    url="https://github.com/jamesacampbell/itunizer",
-    download_url="https://github.com/jamesacampbell/itunizer/archive/{}.tar.gz".format(
-        version
+    url="https://github.com/james-see/appintel",
+    download_url=(
+        "https://github.com/james-see/appintel/archive/{}.tar.gz".format(version)
     ),
     cmdclass={
-        'install': PostInstallCommand,
+        "install": PostInstallCommand,
     },
 )

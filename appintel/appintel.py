@@ -1,4 +1,5 @@
 """A script to grab itunes items for sale for market and data research."""
+
 # coding: utf-8
 # !/usr/bin/python3
 # Author: James Campbell
@@ -18,7 +19,7 @@ import pandas as pd
 import requests
 
 # globals
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 logo = """
 +-------------------------------------+
 |                         --\         |
@@ -39,8 +40,8 @@ ITUNES_URL_ENDPOINT = "https://itunes.apple.com/search?term={}&country={}&entity
 
 # arguments
 parser = argparse.ArgumentParser(
-    description='collects and processes itunes data including ibook, application, '
-                'and other store items with metadata, example: itunizer -c ibook -s "corn" -t',
+    description="collects and processes itunes data including ibook, application, "
+    'and other store items with metadata, example: itunizer -c ibook -s "corn" -t',
     formatter_class=argparse.ArgumentDefaultsHelpFormatter,
 )
 parser.add_argument(
@@ -107,10 +108,9 @@ def get_content():
     """Get data from requests object from itunes endpoint."""
     r = requests.get(
         ITUNES_URL_ENDPOINT.format(
-            args["search_term"], args["store_country"],
-            args["category_location"]
+            args["search_term"], args["store_country"], args["category_location"]
         ),
-        timeout=10  # Timeout after 10 seconds
+        timeout=10,  # Timeout after 10 seconds
     )
     return r
 
@@ -209,7 +209,7 @@ def main():
             )
         )
     else:
-        with open(f"{args['search_term']}.json", "w", encoding='utf-8') as f:
+        with open(f"{args['search_term']}.json", "w", encoding="utf-8") as f:
             f.write(json.dumps(request_response.json()))
         exit(f"file saved as {args['search_term']}.json")
 
