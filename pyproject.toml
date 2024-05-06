@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "appintel"
-version = "1.0.0"
+version = "1.0.1"
 description = "A command line tool to search and compare prices of apps and music on the Apple Store"
 authors = ["James Campbell <james@jamescampbell.us>"]
 readme = "README.md"

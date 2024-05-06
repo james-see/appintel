@@ -1,24 +1,23 @@
-# itunizer
-🎵🎵🎵🎵🎵🎵🎵🎵🎵🎵
+# appintel
 
 ## What
 
-Gather market data into a machine readable form from iTunes store data. 
+Gather market data into a machine readable form from iTunes store data.
 
 ## Install
 
-The easiest way is pip: `pip3 install itunizer`. 
+The easiest way is pip: `pip3 install appintel`.
 
 ## Usage
 
-Use the `-h` for options:   
+Use the `-h` for options:
 
-```
+```bash
 $ itunizer -h
-usage: itunizer [-h] [-s SEARCH_TERM] [-c CATEGORY_LOCATION] [-p] [-n] [-t]
+usage: appintel [-h] [-s SEARCH_TERM] [-c CATEGORY_LOCATION] [-p] [-n] [-t]
                 [--country STORE_COUNTRY] [--version]
 
-collects and processes itunes data including ibook, application, and other
+collects and processes app store data including ibook, application, and other
 store items with metadata, example: itunizer -c ibook -s "corn" -t
 
 optional arguments:
