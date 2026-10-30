@@ -14,7 +14,7 @@ from appintel.appintel import (
 
 
 def test_version() -> None:
-    assert __version__ == "1.0.3"
+    assert __version__ == "1.0.4"
 
 
 def test_build_parser_defaults() -> None:
