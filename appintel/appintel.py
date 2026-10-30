@@ -9,7 +9,7 @@ from statistics import mean, median
 
 import requests
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
 logo = """
 +-------------------------------------+
@@ -35,10 +35,11 @@ def get_content(
     search_term: str, store_country: str = "us", category: str = "software"
 ) -> requests.Response:
     """Fetch data from the iTunes search endpoint."""
-    return requests.get(
-        ITUNES_URL_ENDPOINT.format(search_term, store_country, category),
-        timeout=10,
+    url = (
+        f"https://itunes.apple.com/search?"
+        f"term={search_term}&country={store_country}&entity={category}"
     )
+    return requests.get(url, timeout=10)
 
 
 def _prices(jsondata: dict) -> list[float]:
